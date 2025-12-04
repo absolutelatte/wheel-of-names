@@ -1,5 +1,6 @@
 'use client';
 
+import type { JSX } from 'react';
 import { Lock, Unlock, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { WheelStatus } from '@/types/wheel';

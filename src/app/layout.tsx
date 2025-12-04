@@ -1,5 +1,5 @@
+import type { JSX, ReactNode } from 'react';
 import type { Metadata } from 'next';
-import type { ReactNode } from 'react';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import { ThemeProvider } from '@/providers/theme-provider';

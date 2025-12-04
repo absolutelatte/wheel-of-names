@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Github, Zap } from 'lucide-react';
 
 export function Footer(): JSX.Element {

@@ -1,5 +1,6 @@
 'use client';
 
+import type { JSX } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { Moon, Sun, Disc } from 'lucide-react';

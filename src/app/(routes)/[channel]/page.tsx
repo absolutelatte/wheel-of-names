@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { WheelContainer } from '@/components/wheel/wheel-container';

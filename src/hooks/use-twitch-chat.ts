@@ -1,8 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
-import type { ChatCommand, TwitchFlags } from '@/types/twitch';
 import { TWITCH_COMMANDS } from '@/config/constants';
+
+interface TwitchFlags {
+  broadcaster: boolean;
+  mod: boolean;
+  subscriber: boolean;
+  vip: boolean;
+}
 
 interface UseTwitchChatOptions {
   readonly channel: string;
@@ -24,10 +30,11 @@ export function useTwitchChat({
 }: UseTwitchChatOptions): UseTwitchChatReturn {
   const [isConnected, setIsConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const comfyRef = useRef<typeof window.ComfyJS | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const comfyRef = useRef<any>(null);
 
   const handleCommand = useCallback(
-    (user: string, command: string, _message: string, flags: TwitchFlags): void => {
+    (user: string, command: string, flags: TwitchFlags): void => {
       const lowerCommand = command.toLowerCase();
 
       if (flags.broadcaster && lowerCommand === TWITCH_COMMANDS.OPEN_WHEEL) {
@@ -58,10 +65,10 @@ export function useTwitchChat({
         ComfyJS.onCommand = (
           user: string,
           command: string,
-          message: string,
+          _message: string,
           flags: TwitchFlags
         ): void => {
-          handleCommand(user, command, message, flags);
+          handleCommand(user, command, flags);
         };
 
         ComfyJS.onConnected = (): void => {
@@ -69,8 +76,8 @@ export function useTwitchChat({
           setError(null);
         };
 
-        ComfyJS.onError = (err: Error): void => {
-          setError(err.message);
+        ComfyJS.onError = (err: string): void => {
+          setError(err);
           setIsConnected(false);
         };
 
@@ -83,7 +90,7 @@ export function useTwitchChat({
 
     void initComfy();
 
-    return () => {
+    return (): void => {
       if (comfyRef.current) {
         comfyRef.current.Disconnect();
       }
@@ -91,21 +98,4 @@ export function useTwitchChat({
   }, [channel, handleCommand]);
 
   return { isConnected, error };
-}
-
-declare global {
-  interface Window {
-    ComfyJS: {
-      Init: (channel: string) => void;
-      Disconnect: () => void;
-      onCommand: (
-        user: string,
-        command: string,
-        message: string,
-        flags: TwitchFlags
-      ) => void;
-      onConnected: () => void;
-      onError: (error: Error) => void;
-    };
-  }
 }

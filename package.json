@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Twitch Wheel of Names - Built with Next.js 15, TailwindCSS v4, and ShadCN UI",
   "license": "ISC",
-  "author": "Adrian Vu",
+  "author": "Benchuang",
   "type": "module",
   "scripts": {
     "dev": "next dev",

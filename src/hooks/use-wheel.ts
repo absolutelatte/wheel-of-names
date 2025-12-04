@@ -7,7 +7,7 @@ import type { WheelStatus, UseWheelReturn } from '@/types/wheel';
 
 export function useWheel(): UseWheelReturn {
   const [status, setStatus] = useState<WheelStatus>('closed');
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = false;
   
   const {
     value: participants,
