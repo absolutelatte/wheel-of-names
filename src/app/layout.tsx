@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           disableTransitionOnChange
         >
           {children}
-          <Toaster position="bottom-right" />
+          <Toaster position="bottom-right" visibleToasts={1} duration={1000} />
         </ThemeProvider>
       </body>
     </html>

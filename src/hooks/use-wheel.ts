@@ -51,10 +51,9 @@ export function useWheel(): UseWheelReturn {
 
   const setParticipants = useCallback(
     (newParticipants: readonly string[]): void => {
-      const uniqueParticipants = [...new Set(newParticipants)]
-        .filter((p) => p.trim().length > 0)
-        .slice(0, MAX_PARTICIPANTS);
-      setStoredParticipants(uniqueParticipants);
+      // Allow freeform editing (duplicates and empty lines) for better UX
+      // We limit the count but don't filter aggressively
+      setStoredParticipants(newParticipants.slice(0, MAX_PARTICIPANTS));
     },
     [setStoredParticipants]
   );

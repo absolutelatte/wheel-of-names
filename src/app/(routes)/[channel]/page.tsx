@@ -30,9 +30,9 @@ export default async function ChannelPage({ params }: ChannelPageProps): Promise
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
       <Header channel={channel} />
-      <main className="flex-1 container mx-auto p-4">
+      <main className="flex-1 container mx-auto p-4 overflow-y-auto min-h-0">
         <WheelContainer channel={channel} />
       </main>
       <Footer />

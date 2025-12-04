@@ -18,21 +18,27 @@ export function WheelControls({
   onReset,
 }: WheelControlsProps): JSX.Element {
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="flex flex-col gap-3">
       {status === 'closed' ? (
-        <Button onClick={onOpen} className="col-span-1">
-          <Unlock className="h-4 w-4" />
-          Open
+        <Button onClick={onOpen} className="w-full shadow-sm" size="lg">
+          <Unlock className="mr-2 h-4 w-4" />
+          Open Entries
         </Button>
       ) : (
-        <Button onClick={onClose} variant="secondary" className="col-span-1">
-          <Lock className="h-4 w-4" />
-          Close
+        <Button onClick={onClose} variant="secondary" className="w-full shadow-sm" size="lg">
+          <Lock className="mr-2 h-4 w-4" />
+          Close Entries
         </Button>
       )}
-      <Button onClick={onReset} variant="destructive" className="col-span-1">
-        <Trash2 className="h-4 w-4" />
-        Reset
+      
+      <Button 
+        onClick={onReset} 
+        variant="ghost" 
+        className="w-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+        size="sm"
+      >
+        <Trash2 className="mr-2 h-4 w-4" />
+        Reset All
       </Button>
     </div>
   );
