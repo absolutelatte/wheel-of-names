@@ -23,6 +23,9 @@ import { cn } from '@/lib/utils';
 
 interface WheelContainerProps {
   readonly channel: string;
+  readonly settingsOpen?: boolean;
+  readonly setSettingsOpen?: (open: boolean) => void;
+  readonly onSpinningChange?: (spinning: boolean) => void;
 }
 
 /**
@@ -59,7 +62,12 @@ function sampleParticipants(
   return indices.slice(0, maxVisible).map(i => participants[i] ?? '');
 }
 
-export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
+export function WheelContainer({ 
+  channel, 
+  settingsOpen: externalSettingsOpen,
+  setSettingsOpen: externalSetSettingsOpen,
+  onSpinningChange 
+}: WheelContainerProps): JSX.Element {
   const {
     status,
     participants,
@@ -79,11 +87,19 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
   // Audio hook
   const { playTick, playWin } = useAudio({ volume: settings.volume });
 
-  // Dialog states
-  const [settingsOpen, setSettingsOpen] = useState(false);
+  // Dialog states - use external state if provided, otherwise use local state
+  const [internalSettingsOpen, setInternalSettingsOpen] = useState(false);
+  const settingsOpen = externalSettingsOpen ?? internalSettingsOpen;
+  const setSettingsOpen = externalSetSettingsOpen ?? setInternalSettingsOpen;
+  
   const [winnerDialogOpen, setWinnerDialogOpen] = useState(false);
   const [winnerName, setWinnerName] = useState('');
-  const [isSpinning, setIsSpinning] = useState(false);
+  const [isSpinning, setIsSpinningState] = useState(false);
+
+  const setIsSpinning = useCallback((spinning: boolean) => {
+    setIsSpinningState(spinning);
+    onSpinningChange?.(spinning);
+  }, [onSpinningChange]);
 
   // Memoize valid participants to ensure stable reference
   const validParticipants = useMemo(
@@ -172,9 +188,9 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
   });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 lg:min-h-[700px]">
       {/* Wheel Section - Takes up 8 or 9 columns on large screens */}
-      <Card className="lg:col-span-8 xl:col-span-9 flex flex-col h-[500px] lg:h-[600px] border-muted shadow-sm">
+      <Card className="lg:col-span-8 xl:col-span-9 flex flex-col border-muted shadow-sm lg:h-full">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -209,33 +225,34 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="flex-1 p-4 flex items-center justify-center bg-muted/5">
-          <WheelSpinner
-            participants={displayedParticipants}
-            onSpinStart={handleSpinStart}
-            onSpinEnd={handleSpinEnd}
-            onSegmentChange={playTick}
-            spinDuration={settings.spinTime}
-          />
+        <CardContent className="flex-1 p-4 flex items-center justify-center bg-muted/5 min-h-0">
+          <div className="w-full h-full flex items-center justify-center overflow-hidden">
+            <WheelSpinner
+              participants={displayedParticipants}
+              onSpinStart={handleSpinStart}
+              onSpinEnd={handleSpinEnd}
+              onSegmentChange={playTick}
+              spinDuration={settings.spinTime}
+            />
+          </div>
         </CardContent>
       </Card>
 
       {/* Sidebar Section - Takes up 4 or 3 columns */}
-      <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
+      <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6 lg:h-full">
         {/* Settings Card */}
         <Card className="border-muted shadow-sm">
           <CardContent className="p-4">
             <WheelManagement
               onReset={reset}
               onShuffle={handleShuffle}
-              onCustomize={() => setSettingsOpen(true)}
               isSpinning={isSpinning}
             />
           </CardContent>
         </Card>
 
         {/* Participants Card */}
-        <Card className="flex flex-col h-[400px] lg:flex-1 border-muted shadow-sm">
+        <Card className="flex flex-col min-h-[400px] lg:flex-1 border-muted shadow-sm">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

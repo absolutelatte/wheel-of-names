@@ -1,8 +1,7 @@
 import type { JSX } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { WheelContainer } from '@/components/wheel/wheel-container';
-import { Header } from '@/components/layout/header';
+import { WheelPageWrapper } from '@/components/wheel/wheel-page-wrapper';
 import { Footer } from '@/components/layout/footer';
 import { CHANNEL_REGEX } from '@/config/constants';
 
@@ -32,10 +31,7 @@ export default async function ChannelPage({ params }: ChannelPageProps): Promise
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header channel={channel} />
-      <main className="flex-1 container mx-auto p-4 overflow-auto min-h-0">
-        <WheelContainer channel={channel} />
-      </main>
+      <WheelPageWrapper channel={channel} />
       <Footer />
     </div>
   );
