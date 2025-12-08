@@ -172,9 +172,9 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
   });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
       {/* Wheel Section - Takes up 8 or 9 columns on large screens */}
-      <Card className="lg:col-span-8 xl:col-span-9 flex flex-col h-[600px] lg:h-[700px] border-muted shadow-sm">
+      <Card className="lg:col-span-8 xl:col-span-9 flex flex-col min-h-[600px] border-muted shadow-sm">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -209,7 +209,7 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="flex-1 p-1 flex items-center justify-center bg-muted/5">
+        <CardContent className="flex-1 p-4 flex items-center justify-center bg-muted/5 overflow-hidden">
           <WheelSpinner
             participants={displayedParticipants}
             onSpinStart={handleSpinStart}
@@ -235,7 +235,7 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
         </Card>
 
         {/* Participants Card */}
-        <Card className="flex flex-col h-[500px] lg:flex-1 border-muted shadow-sm">
+        <Card className="flex flex-col min-h-[400px] lg:flex-1 border-muted shadow-sm">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
