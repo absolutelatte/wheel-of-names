@@ -3,7 +3,7 @@
 import type { JSX } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Disc, Settings } from 'lucide-react';
+import { Moon, Sun, FerrisWheel, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { WheelTitleEditor } from '@/components/wheel/wheel-title-editor';
@@ -28,7 +28,7 @@ export function Header({ channel, onCustomize, isSpinning = false, wheelTitle, o
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <Disc className="h-6 w-6 text-primary" />
+            <FerrisWheel className="h-6 w-6 text-primary" />
             <span className="font-semibold">{wheelTitle || 'Twitch Wheel of Names'}</span>
           </Link>
           {wheelTitle && onTitleChange && (

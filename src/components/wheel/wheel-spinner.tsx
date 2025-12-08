@@ -168,6 +168,12 @@ export function WheelSpinner({
         labelColor: '#ffffff',
       }));
 
+      // Calculate initial rotation to align pointer between segments
+      // With N segments, each segment is 360/N degrees
+      // To point between segments, offset by half a segment: 180/N degrees
+      const numSegments = participants.length;
+      const initialRotation = numSegments > 0 ? 180 / numSegments : 0;
+
       // Create wheel props
       const props = {
         items,
@@ -187,6 +193,7 @@ export function WheelSpinner({
         rotationResistance: 0,
         radius: 0.95,
         pointerAngle: 90,
+        rotation: initialRotation,
         itemBackgroundColors: [...colors],
         isInteractive: false,
         onRest: handleSpinEnd,
