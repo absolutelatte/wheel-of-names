@@ -3,15 +3,17 @@
 import type { JSX } from 'react';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Disc } from 'lucide-react';
+import { Moon, Sun, Disc, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 interface HeaderProps {
   readonly channel: string;
+  readonly onCustomize?: () => void;
+  readonly isSpinning?: boolean;
 }
 
-export function Header({ channel }: HeaderProps): JSX.Element {
+export function Header({ channel, onCustomize, isSpinning = false }: HeaderProps): JSX.Element {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = (): void => {
@@ -27,6 +29,19 @@ export function Header({ channel }: HeaderProps): JSX.Element {
         </Link>
 
         <div className="flex items-center gap-4">
+          {onCustomize && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onCustomize}
+              disabled={isSpinning}
+              className="hidden sm:flex"
+            >
+              <Settings className="mr-2 h-4 w-4" />
+              Customize
+            </Button>
+          )}
+          
           <Badge variant="outline" className="hidden sm:inline-flex">
             {channel}
           </Badge>
