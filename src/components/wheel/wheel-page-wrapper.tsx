@@ -12,6 +12,7 @@ interface WheelPageWrapperProps {
 export function WheelPageWrapper({ channel }: WheelPageWrapperProps): JSX.Element {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
+  const [wheelTitle, setWheelTitle] = useState<string>('');
 
   return (
     <>
@@ -19,6 +20,8 @@ export function WheelPageWrapper({ channel }: WheelPageWrapperProps): JSX.Elemen
         channel={channel} 
         onCustomize={() => setSettingsOpen(true)}
         isSpinning={isSpinning}
+        wheelTitle={wheelTitle}
+        onTitleChange={setWheelTitle}
       />
       <main className="flex-1 container mx-auto p-4 overflow-y-auto">
         <WheelContainer 
@@ -26,6 +29,7 @@ export function WheelPageWrapper({ channel }: WheelPageWrapperProps): JSX.Elemen
           settingsOpen={settingsOpen}
           setSettingsOpen={setSettingsOpen}
           onSpinningChange={setIsSpinning}
+          onTitleChange={setWheelTitle}
         />
       </main>
     </>

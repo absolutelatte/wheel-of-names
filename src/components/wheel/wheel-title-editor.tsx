@@ -10,48 +10,41 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 
 interface WheelTitleEditorProps {
   readonly title: string;
-  readonly description: string;
-  readonly onSave: (title: string, description: string) => void;
+  readonly onSave: (title: string) => void;
 }
 
 export function WheelTitleEditor({
   title,
-  description,
   onSave,
 }: WheelTitleEditorProps): JSX.Element {
   const [open, setOpen] = useState(false);
   const [localTitle, setLocalTitle] = useState(title);
-  const [localDescription, setLocalDescription] = useState(description);
 
   // Reset local state when popover opens
   useEffect(() => {
     if (open) {
       setLocalTitle(title);
-      setLocalDescription(description);
     }
-  }, [open, title, description]);
+  }, [open, title]);
 
   const handleSave = useCallback((): void => {
     const trimmedTitle = localTitle.trim();
-    const trimmedDescription = localDescription.trim();
     
     // Use default title if empty
-    const finalTitle = trimmedTitle.length > 0 ? trimmedTitle : 'Wheel of Names';
+    const finalTitle = trimmedTitle.length > 0 ? trimmedTitle : 'Twitch Wheel of Names';
     
-    onSave(finalTitle, trimmedDescription);
+    onSave(finalTitle);
     setOpen(false);
-  }, [localTitle, localDescription, onSave]);
+  }, [localTitle, onSave]);
 
   const handleCancel = useCallback((): void => {
     setLocalTitle(title);
-    setLocalDescription(description);
     setOpen(false);
-  }, [title, description]);
+  }, [title]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent): void => {
@@ -81,27 +74,14 @@ export function WheelTitleEditor({
       <PopoverContent className="w-80" align="start">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="wheel-title">Title</Label>
+            <Label htmlFor="wheel-title">Wheel Title</Label>
             <Input
               id="wheel-title"
               value={localTitle}
               onChange={(e) => setLocalTitle(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Wheel of Names"
+              placeholder="Twitch Wheel of Names"
               maxLength={100}
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="wheel-description">Description</Label>
-            <Textarea
-              id="wheel-description"
-              value={localDescription}
-              onChange={(e) => setLocalDescription(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Add a description..."
-              maxLength={500}
-              rows={3}
             />
           </div>
 

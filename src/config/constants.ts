@@ -33,10 +33,9 @@ export const DEFAULT_WHEEL_SETTINGS = {
   volume: 70,
   spinTime: 10,
   maxVisible: 100,
-  allowDuplicates: true,
 } as const;
 
 export const DEFAULT_WHEEL_METADATA = {
-  title: 'Wheel of Names',
+  title: 'Twitch Wheel of Names',
   description: '',
 } as const;

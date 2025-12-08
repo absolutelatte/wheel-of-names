@@ -6,14 +6,17 @@ import { useTheme } from 'next-themes';
 import { Moon, Sun, Disc, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { WheelTitleEditor } from '@/components/wheel/wheel-title-editor';
 
 interface HeaderProps {
   readonly channel: string;
   readonly onCustomize?: () => void;
   readonly isSpinning?: boolean;
+  readonly wheelTitle?: string;
+  readonly onTitleChange?: (title: string) => void;
 }
 
-export function Header({ channel, onCustomize, isSpinning = false }: HeaderProps): JSX.Element {
+export function Header({ channel, onCustomize, isSpinning = false, wheelTitle, onTitleChange }: HeaderProps): JSX.Element {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = (): void => {
@@ -23,10 +26,18 @@ export function Header({ channel, onCustomize, isSpinning = false }: HeaderProps
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2">
-          <Disc className="h-6 w-6 text-primary" />
-          <span className="font-semibold">Twitch Wheel of Names</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <Disc className="h-6 w-6 text-primary" />
+            <span className="font-semibold">{wheelTitle || 'Twitch Wheel of Names'}</span>
+          </Link>
+          {wheelTitle && onTitleChange && (
+            <WheelTitleEditor
+              title={wheelTitle}
+              onSave={onTitleChange}
+            />
+          )}
+        </div>
 
         <div className="flex items-center gap-4">
           {onCustomize && (
