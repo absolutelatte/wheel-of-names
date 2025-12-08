@@ -172,7 +172,7 @@ export function WheelContainer({ channel }: WheelContainerProps): JSX.Element {
   });
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
       {/* Wheel Section - Takes up 8 or 9 columns on large screens */}
       <Card className="lg:col-span-8 xl:col-span-9 flex flex-col h-[500px] lg:h-[600px] border-muted shadow-sm">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
