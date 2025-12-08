@@ -48,6 +48,11 @@ next-env.d.ts
 # OS
 Thumbs.db
 
+
+# documentation
 old/
 *.md
 !README.md
+.factory/*
+droidz/*
+AGENTS.md
