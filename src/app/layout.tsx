@@ -10,6 +10,14 @@ export const metadata: Metadata = {
   title: 'Twitch Wheel of Names',
   description: 'Interactive wheel for Twitch streams - Let viewers join and spin to win!',
   keywords: ['twitch', 'wheel', 'giveaway', 'streamer', 'interactive'],
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/favicon-32.png',
+  },
 };
 
 interface RootLayoutProps {
