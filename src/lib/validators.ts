@@ -27,3 +27,19 @@ export function validateChannel(channel: string): boolean {
 export function validateParticipant(participant: string): boolean {
   return participantSchema.safeParse(participant).success;
 }
+
+export const wheelSettingsSchema = z.object({
+  volume: z.number().min(0).max(100).default(50),
+  spinTime: z.number().min(1).max(30).default(10),
+  maxVisible: z.number().min(1).max(500).default(500),
+  allowDuplicates: z.boolean().default(true),
+});
+
+export type WheelSettingsSchema = z.infer<typeof wheelSettingsSchema>;
+
+export const wheelMetadataSchema = z.object({
+  title: z.string().max(100).default('Wheel of Names'),
+  description: z.string().max(500).default(''),
+});
+
+export type WheelMetadataSchema = z.infer<typeof wheelMetadataSchema>;

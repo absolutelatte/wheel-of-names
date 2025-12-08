@@ -44,6 +44,17 @@ export function useWheel(): UseWheelReturn {
 
   const removeParticipant = useCallback(
     (name: string): void => {
+      setStoredParticipants((prev) => {
+        const index = prev.indexOf(name);
+        if (index === -1) return prev;
+        return [...prev.slice(0, index), ...prev.slice(index + 1)];
+      });
+    },
+    [setStoredParticipants]
+  );
+
+  const removeAllInstances = useCallback(
+    (name: string): void => {
       setStoredParticipants((prev) => prev.filter((p) => p !== name));
     },
     [setStoredParticipants]
@@ -68,6 +79,7 @@ export function useWheel(): UseWheelReturn {
       reset,
       addParticipant,
       removeParticipant,
+      removeAllInstances,
       setParticipants,
     }),
     [
@@ -79,6 +91,7 @@ export function useWheel(): UseWheelReturn {
       reset,
       addParticipant,
       removeParticipant,
+      removeAllInstances,
       setParticipants,
     ]
   );
