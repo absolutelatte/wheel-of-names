@@ -216,11 +216,7 @@ export function WheelSpinner({
 
   if (!mounted) {
     return (
-<<<<<<< HEAD
-      <div className="flex items-center justify-center w-full h-full max-w-[500px] max-h-[500px] aspect-square">
-=======
       <div className="flex items-center justify-center w-full h-full max-w-full max-h-full aspect-square" style={{ maxWidth: 'min(650px, 100%)', maxHeight: 'min(650px, 100%)' }}>
->>>>>>> 274cd70 (Refactor layout and styling for ChannelPage and Wheel components to improve responsiveness and visual consistency)
         <div className="animate-pulse bg-muted rounded-full w-[90%] h-[90%]" />
       </div>
     );
@@ -228,12 +224,8 @@ export function WheelSpinner({
 
   return (
     <div
-<<<<<<< HEAD
-      className="relative flex items-center justify-center cursor-pointer w-full h-full max-w-[500px] max-h-[500px] aspect-square"
-=======
       className="relative flex items-center justify-center cursor-pointer w-full h-full max-w-full max-h-full aspect-square"
       style={{ maxWidth: 'min(650px, 100%)', maxHeight: 'min(650px, 100%)' }}
->>>>>>> 274cd70 (Refactor layout and styling for ChannelPage and Wheel components to improve responsiveness and visual consistency)
       onClick={handleSpin}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
