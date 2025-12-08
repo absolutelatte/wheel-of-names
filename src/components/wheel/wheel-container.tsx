@@ -1,7 +1,7 @@
 'use client';
 
 import type { JSX } from 'react';
-import { useCallback, useState, useMemo, useRef } from 'react';
+import { useCallback, useState, useMemo, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import { WheelControls } from './wheel-controls';
 import { WheelManagement } from './wheel-management';
@@ -9,8 +9,7 @@ import { ParticipantsList } from './participants-list';
 import { WheelSpinner } from './wheel-spinner';
 import { WheelSettingsDialog } from './wheel-settings-dialog';
 import { WinnerDialog } from './winner-dialog';
-import { WheelTitleEditor } from './wheel-title-editor';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useWheel } from '@/hooks/use-wheel';
@@ -18,7 +17,7 @@ import { useTwitchChat } from '@/hooks/use-twitch-chat';
 import { useWheelSettings } from '@/hooks/use-wheel-settings';
 import { useWheelMetadata } from '@/hooks/use-wheel-metadata';
 import { useAudio } from '@/hooks/use-audio';
-import { Disc, Users, Wifi, WifiOff, AlertCircle } from 'lucide-react';
+import { Users, Wifi, WifiOff, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface WheelContainerProps {
@@ -26,6 +25,7 @@ interface WheelContainerProps {
   readonly settingsOpen?: boolean;
   readonly setSettingsOpen?: (open: boolean) => void;
   readonly onSpinningChange?: (spinning: boolean) => void;
+  readonly onTitleChange?: (title: string) => void;
 }
 
 /**
@@ -66,7 +66,8 @@ export function WheelContainer({
   channel, 
   settingsOpen: externalSettingsOpen,
   setSettingsOpen: externalSetSettingsOpen,
-  onSpinningChange 
+  onSpinningChange,
+  onTitleChange 
 }: WheelContainerProps): JSX.Element {
   const {
     status,
@@ -82,7 +83,7 @@ export function WheelContainer({
 
   // Settings and metadata hooks
   const { settings, updateSettings } = useWheelSettings();
-  const { metadata, updateMetadata } = useWheelMetadata();
+  const { metadata } = useWheelMetadata();
 
   // Audio hook
   const { playTick, playWin } = useAudio({ volume: settings.volume });
@@ -91,6 +92,13 @@ export function WheelContainer({
   const [internalSettingsOpen, setInternalSettingsOpen] = useState(false);
   const settingsOpen = externalSettingsOpen ?? internalSettingsOpen;
   const setSettingsOpen = externalSetSettingsOpen ?? setInternalSettingsOpen;
+
+  // Sync title with parent component
+  useEffect(() => {
+    if (onTitleChange) {
+      onTitleChange(metadata.title);
+    }
+  }, [metadata.title, onTitleChange]);
   
   const [winnerDialogOpen, setWinnerDialogOpen] = useState(false);
   const [winnerName, setWinnerName] = useState('');
@@ -191,40 +199,6 @@ export function WheelContainer({
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6 lg:min-h-[700px]">
       {/* Wheel Section - Takes up 8 or 9 columns on large screens */}
       <Card className="lg:col-span-8 xl:col-span-9 flex flex-col border-muted shadow-sm lg:h-full">
-        <CardHeader className="px-6 py-4 border-b bg-muted/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Disc className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <CardTitle className="text-lg">{metadata.title}</CardTitle>
-                  <WheelTitleEditor
-                    title={metadata.title}
-                    description={metadata.description}
-                    onSave={(title, description) => updateMetadata({ title, description })}
-                  />
-                </div>
-                {metadata.description && (
-                  <CardDescription>{metadata.description}</CardDescription>
-                )}
-                <CardDescription>Wait for participants to join</CardDescription>
-              </div>
-            </div>
-            <Badge 
-              variant={status === 'open' ? 'success' : 'secondary'}
-              className={cn(
-                "px-3 py-1 text-sm font-medium transition-colors",
-                status === 'open' 
-                  ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800" 
-                  : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-              )}
-            >
-              {status === 'open' ? 'Accepting Entries' : 'Entries Closed'}
-            </Badge>
-          </div>
-        </CardHeader>
         <CardContent className="flex-1 p-4 flex items-center justify-center bg-muted/5 min-h-0">
           <div className="w-full h-full flex items-center justify-center overflow-hidden">
             <WheelSpinner
@@ -254,13 +228,22 @@ export function WheelContainer({
         {/* Participants Card */}
         <Card className="flex flex-col min-h-[400px] lg:flex-1 border-muted shadow-sm">
         <CardHeader className="px-6 py-4 border-b bg-muted/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-muted-foreground" />
-              <Badge variant="outline" className="font-mono">
-                {validParticipants.length}
-              </Badge>
-            </div>
+          <div className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-muted-foreground" />
+            <Badge variant="outline" className="font-mono">
+              {validParticipants.length}
+            </Badge>
+            <Badge 
+              variant={status === 'open' ? 'success' : 'secondary'}
+              className={cn(
+                "px-3 py-1 text-sm font-medium transition-colors",
+                status === 'open' 
+                  ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800" 
+                  : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+              )}
+            >
+              {status === 'open' ? 'Accepting Entries' : 'Entries Closed'}
+            </Badge>
           </div>
         </CardHeader>
         

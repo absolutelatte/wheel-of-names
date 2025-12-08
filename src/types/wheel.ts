@@ -4,7 +4,6 @@ export interface WheelSettings {
   readonly volume: number;
   readonly spinTime: number;
   readonly maxVisible: number;
-  readonly allowDuplicates: boolean;
 }
 
 export interface WheelMetadata {

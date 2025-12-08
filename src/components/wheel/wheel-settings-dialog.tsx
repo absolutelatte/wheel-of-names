@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import type { WheelSettings } from '@/types/wheel';
 
@@ -34,7 +33,6 @@ export function WheelSettingsDialog({
   const [volume, setVolume] = useState(settings.volume);
   const [spinTime, setSpinTime] = useState(settings.spinTime);
   const [maxVisible, setMaxVisible] = useState(settings.maxVisible);
-  const [allowDuplicates, setAllowDuplicates] = useState(settings.allowDuplicates);
 
   // Reset local state when dialog opens
   useEffect(() => {
@@ -42,7 +40,6 @@ export function WheelSettingsDialog({
       setVolume(settings.volume);
       setSpinTime(settings.spinTime);
       setMaxVisible(settings.maxVisible);
-      setAllowDuplicates(settings.allowDuplicates);
     }
   }, [open, settings]);
 
@@ -51,10 +48,9 @@ export function WheelSettingsDialog({
       volume,
       spinTime,
       maxVisible,
-      allowDuplicates,
     });
     onOpenChange(false);
-  }, [volume, spinTime, maxVisible, allowDuplicates, onSettingsChange, onOpenChange]);
+  }, [volume, spinTime, maxVisible, onSettingsChange, onOpenChange]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -137,21 +133,6 @@ export function WheelSettingsDialog({
                 }
               }}
             />
-          </div>
-
-          {/* Allow Duplicates Checkbox */}
-          <div className="flex items-center space-x-3">
-            <Checkbox
-              id="allow-duplicates"
-              checked={allowDuplicates}
-              onCheckedChange={(checked) => setAllowDuplicates(checked === true)}
-            />
-            <Label
-              htmlFor="allow-duplicates"
-              className="text-sm font-normal cursor-pointer"
-            >
-              Allow Duplicate Entries
-            </Label>
           </div>
         </div>
 
