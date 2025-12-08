@@ -216,7 +216,7 @@ export function WheelSpinner({
 
   if (!mounted) {
     return (
-      <div className="flex items-center justify-center w-full h-full max-w-[500px] max-h-[500px] aspect-square">
+      <div className="flex items-center justify-center w-full h-full max-w-[650px] max-h-[650px] aspect-square">
         <div className="animate-pulse bg-muted rounded-full w-[90%] h-[90%]" />
       </div>
     );
@@ -224,7 +224,7 @@ export function WheelSpinner({
 
   return (
     <div
-      className="relative flex items-center justify-center cursor-pointer w-full h-full max-w-[500px] max-h-[500px] aspect-square"
+      className="relative flex items-center justify-center cursor-pointer w-full h-full max-w-[650px] max-h-[650px] aspect-square"
       onClick={handleSpin}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
