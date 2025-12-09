@@ -136,7 +136,7 @@ export function WheelContainer({
     if (status === 'open') {
       close();
     }
-  }, [status, close]);
+  }, [status, close, setIsSpinning]);
 
   // Spin completion handler
   const handleSpinEnd = useCallback((winner: string): void => {
@@ -144,7 +144,7 @@ export function WheelContainer({
     playWin();
     setWinnerName(winner);
     setWinnerDialogOpen(true);
-  }, [playWin]);
+  }, [playWin, setIsSpinning]);
 
   const handleJoin = useCallback(
     (username: string): void => {
