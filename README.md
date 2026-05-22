@@ -1,6 +1,9 @@
 # Twitch Wheel of Names
 
-A professional, interactive wheel of names application for Twitch streamers. Let your viewers join giveaways, raffles, or random selections directly through Twitch chat with a beautiful custom-built spinning wheel!
+For IRL Stremers, use chat commands to open/close and spin the wheel.
+
+OBS Browser Overlay version of wheel of names application for Twitch streamers. Let your viewers join giveaways, raffles, or random selections directly through Twitch chat with a beautiful custom-built spinning wheel!
+
 
 **Inspired by [AbsoluteLatte's Wheel of Names](https://absolutelatte.github.io/)**
 
